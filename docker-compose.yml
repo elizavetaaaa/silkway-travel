@@ -1,0 +1,13 @@
+version: '3'
+networks:
+  silkway_net:
+    external: true
+
+services:
+  frontend:
+    container_name: "silkway"
+    image: $REGISTRY_URL_PROD:latest
+    ports:
+      - '3000:80'
+    networks:
+      - silkway_net

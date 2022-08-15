@@ -1,0 +1,37 @@
+image: docker
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay2
+  REGISTRY_URL_PROD: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/prod
+
+stages:
+  - build
+  - deploy
+
+build_for_prod:
+      stage: build
+      only:
+        - master
+      tags:
+        - .net
+      script:
+        - docker build -t $REGISTRY_URL_PROD:latest .
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker push  $REGISTRY_URL_PROD:latest
+
+        
+  
+  
+deploy_to_prod:
+      stage: deploy
+      script:       
+        - export DOCKER_HOST=tcp://10.10.200.232:2376
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker pull $REGISTRY_URL_PROD:latest
+        - docker-compose up -d
+      only:
+        - master
+      tags:
+        - .net

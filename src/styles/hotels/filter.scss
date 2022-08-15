@@ -1,0 +1,21 @@
+.filter{
+  width: 100%;
+  display: flex;
+  margin-bottom: 15px;
+
+  &__name{
+    font-family: Open Sans, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    color: #222222;
+    text-align: left;
+    margin-left: 20px;
+  }
+}
+
+input[type="checkbox"]:disabled {
+  color: #0fab60;
+  background-color: #11ab5b;
+}
