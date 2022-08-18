@@ -1,10 +1,12 @@
-on: push
-  branch: [master]
-name: 🚀 Deploy website on push
+on:
+  push:
+    branches: [main]
+name: Deploy website on push
+
 jobs:
   web-deploy:
-    name: Build
-    runs-on: ubuntu-latest
+    name: Build and deploy
+    runs-on: ubuntu-20.04
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
@@ -16,29 +18,15 @@ jobs:
       
     - name: 🔨 Build Project
       run: |
-        npm install
-        npm run build
-    - name: Archive production artifact
-      uses: actions/upload-artifact@main
-      with:
-        name: dist
-        path: build/
-  deploy:
-    name: Deploy
-    needs: Build
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout repository
-        uses: actions/checkout@main
-      - name: Download artifact
-        uses: actions/download-artifact@main
-        with: 
-          name: dist
-          path: /www/test
-    - name: 📂 Sync files
+        CI=false npm install
+        CI=false npm run build --if-present
+    - name: test
+      run: |
+          cp .htaccess ./build/
+    - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
-        with: 
-          server: ${{ secrets.ftp_server }}
-          username: ${{ secrets.ftp_user }}
-          password: ${{ secrets.ftp_password }}
-          server-dir: /www/silkwaytravel.kg/
+      with:
+        server: ${{ secrets.ftp_server }}
+        username: ${{ secrets.ftp_user}}
+        password: ${{ secrets.ftp_password }}
+        local-dir: ./build/
