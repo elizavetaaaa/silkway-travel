@@ -53,7 +53,7 @@ function App() {
     const hotelFacilitiesList = useSelector(state => state.searchReducer.hotelFacilitiesList);
     let dividedFacsEn ={};
     let dividedFacsRu ={};
-    hotelFacilitiesList.map((el)=>{
+    hotelFacilitiesList?.map((el)=>{
         if(!dividedFacsEn[el?.category_id?.name_en]){
             dividedFacsEn[el?.category_id?.name_en] =[];
         }
