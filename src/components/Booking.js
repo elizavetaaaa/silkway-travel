@@ -276,7 +276,7 @@ const Booking = () => {
                      style={{display: isLoading ? 'block' : 'none'}} src={require('../images/loading.gif')}
                      alt="loading..."/>
 
-                <h1 className="booking__title">{translate("Лучшее место")} <br
+                <h1 className="booking__title">{translate("Лучшее место апролд")} <br
                     className="booking__break"/> {translate('для вашего отдыха')}</h1>
                 <p className="booking__subtitle">{translate('Поиск отелей, хостелов и апартаментов на территории Средней Азии и стран СНГ')}
                 </p>
